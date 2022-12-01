@@ -8,7 +8,10 @@ fun main() {
         .joinToString("")
     """# 🎅🏻Advent Of Code 2022 🎄
       | $solutions
-    """.trimMargin().printAndWrite()
+    """.trimMargin().also {
+        println(it)
+        //File("./README.md").writeText(it)
+    }
 }
 
 sealed interface AOC {
@@ -32,8 +35,3 @@ sealed interface AOC {
 }
 
 fun String.read() = AOC::class.java.getResource(this)!!.readText()
-
-fun String.printAndWrite() {
-    println(this)
-    File("./README.md").writeText(this)
-}
