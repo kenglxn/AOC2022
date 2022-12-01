@@ -1,10 +1,14 @@
+import java.io.File
+
 fun main() {
-    println("🎅🏻Advent Of Code 2022 🎄")
-    println("")
-    AOC::class.nestedClasses
+    val solutions = AOC::class.nestedClasses
         .map { it.objectInstance as AOC }
         .sortedBy { it.javaClass.simpleName }
-        .forEach { println(it.solve()) }
+        .map { it.solve() }
+        .joinToString("")
+    """# 🎅🏻Advent Of Code 2022 🎄
+      | $solutions
+    """.trimMargin().printAndWrite()
 }
 
 sealed interface AOC {
@@ -17,14 +21,19 @@ sealed interface AOC {
                 .sortedByDescending { (idx, cal) -> cal }
 
             return """
-                |  Day 1 =>
-                |      Part 1: 
-                |          Elf:${elves.first().first} = kCal:${elves.first().second}
-                |      Part 2:
-                |          ${elves.take(3).sumOf { it.second }}
+                |## Day 1
+                |* Part 1: 
+                |  * Elf:${elves.first().first} = kCal:${elves.first().second}
+                |* Part 2:
+                |  * ${elves.take(3).sumOf { it.second }}
             """.trimMargin()
         }
     }
 }
 
 fun String.read() = AOC::class.java.getResource(this)!!.readText()
+
+fun String.printAndWrite() {
+    println(this)
+    File("./README.md").writeText(this)
+}
