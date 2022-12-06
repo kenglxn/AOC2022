@@ -39,6 +39,7 @@ sealed interface AOC {
             Tool.PAPER to Tool.SCISSORS,
             Tool.SCISSORS to Tool.ROCK,
         )
+
         enum class Tool(val theirCode: String, val ourCode: String, val score: Int) {
             ROCK("A", "X", 1),
             PAPER("B", "Y", 2),
@@ -53,7 +54,7 @@ sealed interface AOC {
             fun fromOutcome(code: String): Tool {
                 val outcome = Outcome.values().find { it.code == code }!!
                 return when (outcome) {
-                    Outcome.LOSE -> victors.entries.find { (k,v) -> v == this }!!.key
+                    Outcome.LOSE -> victors.entries.find { (k, v) -> v == this }!!.key
                     Outcome.WIN -> victors[this]!!
                     Outcome.DRAW -> this
                 }
@@ -172,7 +173,7 @@ sealed interface AOC {
         operator fun String.component6() = at(21)
         operator fun String.component7() = at(25)
         operator fun String.component8() = at(29)
-        operator fun String.component9()= at(33)
+        operator fun String.component9() = at(33)
         fun String.at(i: Int): String {
             return try {
                 this[i].toString()
@@ -181,15 +182,33 @@ sealed interface AOC {
             }
         }
 
-        operator fun Array<Array<String>>.component1() = map { (i,_,_,_,_,_,_,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component2() = map { (_,i,_,_,_,_,_,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component3() = map { (_,_,i,_,_,_,_,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component4() = map { (_,_,_,i,_,_,_,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component5() = map { (_,_,_,_,i,_,_,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component6() = map { (_,_,_,_,_,i,_,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component7() = map { (_,_,_,_,_,_,i,_,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component8() = map { (_,_,_,_,_,_,_,i,_) -> i }.filter { it.isNotBlank() }.toTypedArray()
-        operator fun Array<Array<String>>.component9() = map { (_,_,_,_,_,_,_,_,i) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component1() =
+            map { (i, _, _, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component2() =
+            map { (_, i, _, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component3() =
+            map { (_, _, i, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component4() =
+            map { (_, _, _, i, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component5() =
+            map { (_, _, _, _, i, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component6() =
+            map { (_, _, _, _, _, i, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component7() =
+            map { (_, _, _, _, _, _, i, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component8() =
+            map { (_, _, _, _, _, _, _, i, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
+        operator fun Array<Array<String>>.component9() =
+            map { (_, _, _, _, _, _, _, _, i) -> i }.filter { it.isNotBlank() }.toTypedArray()
+
         fun MutableList<String>.takeAndRemove(amount: Int): List<String> {
             val taken = take(amount)
             repeat(amount) { removeFirstOrNull() }
@@ -202,7 +221,8 @@ sealed interface AOC {
         }
 
         override fun solve(): String {
-            val (stack1, stack2, stack3, stack4, stack5, stack6, stack7, stack8, stack9) = "day5.input".read().split("\n")
+            val (stack1, stack2, stack3, stack4, stack5, stack6, stack7, stack8, stack9) = "day5.input".read()
+                .split("\n")
                 .filter { it.contains('[') }
                 .map { (a, b, c, d, e, f, g, h, i) -> arrayOf(a, b, c, d, e, f, g, h, i) }
                 .toTypedArray()
@@ -241,9 +261,35 @@ sealed interface AOC {
             """.trimMargin()
         }
     }
+
+    object Day6 : AOC {
+        fun String.markerWithSize(markerSize: Int) =
+            this.withIndex()
+                .windowed(markerSize)
+                .find {
+                    it.map { v -> v.value }.toSet().size == markerSize
+                }!!.last().index + 1
+
+        fun String.startOfPacket() = markerWithSize(4)
+        fun String.startOfMessage() = markerWithSize(14)
+
+        override fun solve(): String {
+            val input = "day6.input".read()
+            val packetMarker = input.startOfPacket()
+            val messageMarker = input.startOfMessage()
+
+            return """
+                |## Day 6
+                |* Part 1: 
+                | * $packetMarker
+                |* Part 2: 
+                | * $messageMarker
+            """.trimMargin()
+        }
+    }
 }
 
 fun String.read() = AOC::class.java.getResource(this)!!.readText()
 //fun main(vararg arg: String) {
-//    println(AOC.Day5.solve())
+//    println(AOC.Day6.solve())
 //}
