@@ -174,40 +174,16 @@ sealed interface AOC {
         operator fun String.component7() = at(25)
         operator fun String.component8() = at(29)
         operator fun String.component9() = at(33)
-        fun String.at(i: Int): String {
-            return try {
-                this[i].toString()
-            } catch (e: Exception) {
-                ""
-            }
-        }
-
-        operator fun Array<Array<String>>.component1() =
-            map { (i, _, _, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component2() =
-            map { (_, i, _, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component3() =
-            map { (_, _, i, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component4() =
-            map { (_, _, _, i, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component5() =
-            map { (_, _, _, _, i, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component6() =
-            map { (_, _, _, _, _, i, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component7() =
-            map { (_, _, _, _, _, _, i, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component8() =
-            map { (_, _, _, _, _, _, _, i, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
-
-        operator fun Array<Array<String>>.component9() =
-            map { (_, _, _, _, _, _, _, _, i) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component1() = map { (i, _, _, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component2() = map { (_, i, _, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component3() = map { (_, _, i, _, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component4() = map { (_, _, _, i, _, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component5() = map { (_, _, _, _, i, _, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component6() = map { (_, _, _, _, _, i, _, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component7() = map { (_, _, _, _, _, _, i, _, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component8() = map { (_, _, _, _, _, _, _, i, _) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        operator fun Array<Array<String>>.component9() = map { (_, _, _, _, _, _, _, _, i) -> i }.filter { it.isNotBlank() }.toTypedArray()
+        fun String.at(i: Int) = try { this[i].toString() } catch (e: Exception) { "" }
 
         fun MutableList<String>.takeAndRemove(amount: Int): List<String> {
             val taken = take(amount)
