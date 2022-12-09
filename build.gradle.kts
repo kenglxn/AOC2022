@@ -15,6 +15,9 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation(kotlin("reflect"))
+    testImplementation("io.kotest:kotest-assertions-core:5.5.4")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.5.4")
+    testImplementation("io.kotest:kotest-framework-datatest:5.5.4")
 }
 
 tasks.test {
