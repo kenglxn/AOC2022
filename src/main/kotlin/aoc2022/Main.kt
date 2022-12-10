@@ -2,7 +2,7 @@ package aoc2022
 fun main() {
     val days = AOC::class.sealedSubclasses
     val solutions = days
-        .sortedBy { it.simpleName }
+        .sortedBy { it.simpleName!!.replace(Regex("\\D"), "").toInt() }
         .map { it.objectInstance as AOC }
         .map { it.solve() }
         .joinToString("\n")

@@ -36,7 +36,7 @@ class Day10Test : DescribeSpec({
                 addx -5
             """.trimIndent()
         )
-        Day10.CPU.cycles.get() shouldBe 5
+        Day10.CPU.cycles shouldBe 5
         Day10.CPU.register.sum() shouldBe -1
         Day10.CPU.signalStrengths should beEmpty()
     }
@@ -52,6 +52,19 @@ class Day10Test : DescribeSpec({
             SignalStrength(180, 16), // 2880
             SignalStrength(220, 18), // 3960
         )
+    }
+
+    describe("CRT") {
+        Day10.processInput(input)
+        Day10.CRT.render().lines().first() shouldBe "##..##..##..##..##..##..##..##..##..##.."
+        Day10.CRT.render() shouldBe """
+            ##..##..##..##..##..##..##..##..##..##..
+            ###...###...###...###...###...###...###.
+            ####....####....####....####....####....
+            #####.....#####.....#####.....#####.....
+            ######......######......######......####
+            #######.......#######.......#######.....
+        """.trimIndent()
     }
 })
 

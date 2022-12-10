@@ -1,10 +1,39 @@
 package aoc2022
 
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.properties.Delegates
 
 object Day10 : AOC {
+    enum class Pixel(val char: Char) {
+        LIT('#'),
+        DARK('.');
+
+        override fun toString() = char.toString()
+    }
+    object CRT {
+        val pixmap = mutableMapOf<Int, Pixel>()
+        fun reset() = pixmap.clear()
+
+        fun draw(cycle: Int, register: Int) {
+            val spritePositions = listOf(register-1, register, register+1)
+            pixmap[cycle - 1] =
+                if (spritePositions.contains((cycle - 1) % 40))
+                    Pixel.LIT
+                else
+                    Pixel.DARK
+        }
+        fun render(): String {
+            val pixels = pixmap.entries.sortedBy { it.key }.map { it.value }
+            return pixels.joinToString("").chunked(40).joinToString("\n")
+        }
+    }
     object CPU {
-        val cycles = AtomicInteger(0)
+        var cycles: Int by Delegates.observable(0) { property, oldValue, newValue ->
+            if (newValue == 0) {
+                CRT.reset()
+            } else {
+                CRT.draw(newValue, register.sum())
+            }
+        }
         val register = mutableListOf(1)
         val signalStrengths = mutableListOf<SignalStrength>()
 
@@ -12,14 +41,15 @@ object Day10 : AOC {
             signalStrengths.clear()
             register.clear()
             register.add(1)
-            cycles.set(0)
+            cycles = 0
         }
 
         fun registerSignal() = signalStrengths.add(cycles to register.sum())
 
         fun process(instr: Instruction) {
             repeat(instr.cmd.cycles) {
-                if (cycles.incrementAndGet().isSignal()) {
+                cycles += 1
+                if (cycles.isSignal()) {
                     registerSignal()
                 }
             }
@@ -28,7 +58,7 @@ object Day10 : AOC {
             }
         }
 
-        private infix fun AtomicInteger.to(register: Int) = SignalStrength(get(), register)
+        private infix fun Int.to(register: Int) = SignalStrength(this, register)
     }
 
     data class SignalStrength(val cycle: Int, val register: Int) {
@@ -54,12 +84,15 @@ object Day10 : AOC {
     override fun solve(): String {
         processInput("day10.input".read())
         val strength = CPU.signalStrengths.sumOf { it.strenght }
+        val render = CRT.render()
         return """
             |## Day 10
             |* Part 1: 
             | * $strength
             |* Part 2: 
-            | * 
+            |```
+            |$render
+            |```
         """.trimMargin()
     }
 }
