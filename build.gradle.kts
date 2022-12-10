@@ -29,5 +29,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("aoc2022.MainKt")
 }
