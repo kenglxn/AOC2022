@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation(kotlin("reflect"))
+    implementation("com.ionspin.kotlin:bignum:0.3.7")
     testImplementation("io.kotest:kotest-assertions-core:5.5.4")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.5.4")
     testImplementation("io.kotest:kotest-framework-datatest:5.5.4")
