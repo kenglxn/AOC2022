@@ -1,18 +1,14 @@
 package aoc2022
 
-import com.ionspin.kotlin.bignum.integer.BigInteger
-import com.ionspin.kotlin.bignum.integer.toBigInteger
-import java.lang.System.currentTimeMillis
-
 object Day11 : AOC {
-    val applyRelief = { worry: BigInteger -> (worry / 3) }
+    val applyRelief = { worry: Int -> (worry / 3) }
     val monkeyMap = mutableMapOf<Int, Monkey>()
     fun monkey(nr: Int) = monkeyMap[nr]!!
     data class Monkey(
         val id: Int,
-        val items: MutableList<BigInteger>,
-        val operation: (old: BigInteger) -> BigInteger,
-        val test: (item: BigInteger) -> Boolean,
+        val items: MutableList<Int>,
+        val operation: (old: Int) -> Int,
+        val test: (item: Int) -> Boolean,
         val targets: Map<Boolean, Int>,
         var tests: Int = 0,
     ) {
@@ -21,7 +17,7 @@ object Day11 : AOC {
             fun parse(str: String) : Monkey {
                 val (monkeyId) = Regex("Monkey (\\d+):").find(str)!!.destructured
                 val (itemsStr) = Regex("Starting items: ((?:\\d+(?:, )?)*)").find(str)!!.destructured
-                val items = itemsStr.split(", ").map { it.toBigInteger() }
+                val items = itemsStr.split(", ").map { it.toInt() }
                 val (operator, operandStr) = Regex("Operation: new = old (.+) (.+)").find(str)!!.destructured
                 val (divisor) = Regex("Test: divisible by (\\d+)").find(str)!!.destructured
                 val (trueTarget) = Regex("If true: throw to monkey (\\d+)").find(str)!!.destructured
@@ -33,7 +29,7 @@ object Day11 : AOC {
                     operation = { old ->
                         val operand = when(operandStr) {
                             "old" -> old
-                            else -> operandStr.toBigInteger()
+                            else -> operandStr.toInt()
                         }
                         when (operator) {
                             "*" -> old * operand
@@ -43,7 +39,7 @@ object Day11 : AOC {
                             else -> throw Error("unsupported operator $operator")
                         }
                     },
-                    test = { item -> item % divisor.toBigInteger() == 0.toBigInteger() },
+                    test = { item -> item % divisor.toInt() == 0 },
                     targets = mapOf(
                         true to trueTarget.toInt(),
                         false to falseTarget.toInt(),
@@ -69,11 +65,7 @@ object Day11 : AOC {
             monkey.seeDo(applyRelief)
         }
     }
-    fun play(rounds: Int, applyRelief : Boolean = true) = repeat(rounds) {
-        val start = currentTimeMillis()
-        playRound(applyRelief)
-        println("round $it took ${currentTimeMillis() - start} ms")
-    }
+    fun play(rounds: Int, applyRelief : Boolean = true) = repeat(rounds) { playRound(applyRelief) }
     fun monkeyBusiness() = monkeyMap.values.map { it.tests }.sortedDescending().take(2).reduce(Int::times)
 
     fun parseInput(input: String) {
@@ -88,10 +80,6 @@ object Day11 : AOC {
         parseInput(input)
         play(20)
         val part1 = monkeyBusiness()
-
-        parseInput(input)
-        play(10000, false)
-        val part2 = monkeyBusiness()
 
         return """
             |## Day 11

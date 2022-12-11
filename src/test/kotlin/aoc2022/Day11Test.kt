@@ -1,6 +1,5 @@
 package aoc2022
 
-import com.ionspin.kotlin.bignum.integer.toBigInteger
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
@@ -9,39 +8,39 @@ class Day11Test : DescribeSpec({
 
     describe("Monkeys") {
         Day11.parseInput(example)
-        Day11.monkey(0).items shouldBe listOf(79, 98).map { it.toBigInteger() }
-        Day11.monkey(0).operation(1.toBigInteger()) shouldBe (1 * 19).toBigInteger()
-        Day11.monkey(0).operation(2.toBigInteger()) shouldBe (2 * 19).toBigInteger()
-        Day11.monkey(0).test(23.toBigInteger()) shouldBe true
-        Day11.monkey(0).test((23 * 2).toBigInteger()) shouldBe true
-        Day11.monkey(0).test(24.toBigInteger()) shouldBe false
+        Day11.monkey(0).items shouldBe listOf(79, 98)
+        Day11.monkey(0).operation(1) shouldBe (1 * 19)
+        Day11.monkey(0).operation(2) shouldBe (2 * 19)
+        Day11.monkey(0).test(23) shouldBe true
+        Day11.monkey(0).test((23 * 2)) shouldBe true
+        Day11.monkey(0).test(24) shouldBe false
         Day11.monkey(0).targets[true] shouldBe 2
         Day11.monkey(0).targets[false] shouldBe 3
 
-        Day11.monkey(1).items shouldBe listOf(54, 65, 75, 74).map { it.toBigInteger() }
-        Day11.monkey(1).operation(1.toBigInteger()) shouldBe (1 + 6).toBigInteger()
-        Day11.monkey(1).operation(2.toBigInteger()) shouldBe (2 + 6).toBigInteger()
-        Day11.monkey(1).test(19.toBigInteger()) shouldBe true
-        Day11.monkey(1).test((19 * 2).toBigInteger()) shouldBe true
-        Day11.monkey(1).test(20.toBigInteger()) shouldBe false
+        Day11.monkey(1).items shouldBe listOf(54, 65, 75, 74)
+        Day11.monkey(1).operation(1) shouldBe 1 + 6
+        Day11.monkey(1).operation(2) shouldBe 2 + 6
+        Day11.monkey(1).test(19) shouldBe true
+        Day11.monkey(1).test(19 * 2) shouldBe true
+        Day11.monkey(1).test(20) shouldBe false
         Day11.monkey(1).targets[true] shouldBe 2
         Day11.monkey(1).targets[false] shouldBe 0
 
-        Day11.monkey(2).items shouldBe listOf(79, 60, 97).map { it.toBigInteger() }
-        Day11.monkey(2).operation(1.toBigInteger()) shouldBe (1 * 1).toBigInteger()
-        Day11.monkey(2).operation(2.toBigInteger()) shouldBe (2 * 2).toBigInteger()
-        Day11.monkey(2).test(13.toBigInteger()) shouldBe true
-        Day11.monkey(2).test((13 * 2).toBigInteger()) shouldBe true
-        Day11.monkey(2).test(14.toBigInteger()) shouldBe false
+        Day11.monkey(2).items shouldBe listOf(79, 60, 97)
+        Day11.monkey(2).operation(1) shouldBe 1 * 1
+        Day11.monkey(2).operation(2) shouldBe 2 * 2
+        Day11.monkey(2).test(13) shouldBe true
+        Day11.monkey(2).test(13 * 2) shouldBe true
+        Day11.monkey(2).test(14) shouldBe false
         Day11.monkey(2).targets[true] shouldBe 1
         Day11.monkey(2).targets[false] shouldBe 3
 
-        Day11.monkey(3).items shouldBe listOf(74).map { it.toBigInteger() }
-        Day11.monkey(3).operation(1.toBigInteger()) shouldBe (1 + 3).toBigInteger()
-        Day11.monkey(3).operation(2.toBigInteger()) shouldBe (2 + 3).toBigInteger()
-        Day11.monkey(3).test(17.toBigInteger()) shouldBe true
-        Day11.monkey(3).test((17 * 2).toBigInteger()) shouldBe true
-        Day11.monkey(3).test(14.toBigInteger()) shouldBe false
+        Day11.monkey(3).items shouldBe listOf(74)
+        Day11.monkey(3).operation(1) shouldBe 1 + 3
+        Day11.monkey(3).operation(2) shouldBe 2 + 3
+        Day11.monkey(3).test(17) shouldBe true
+        Day11.monkey(3).test(17 * 2) shouldBe true
+        Day11.monkey(3).test(14) shouldBe false
         Day11.monkey(3).targets[true] shouldBe 0
         Day11.monkey(3).targets[false] shouldBe 1
     }
@@ -83,10 +82,10 @@ class Day11Test : DescribeSpec({
         )) { (a, b, c, d) ->
             Day11.playRound()
 
-            Day11.monkey(0).items shouldBe a.map { it.toBigInteger() }
-            Day11.monkey(1).items shouldBe b.map { it.toBigInteger() }
-            Day11.monkey(2).items shouldBe c.map { it.toBigInteger() }
-            Day11.monkey(3).items shouldBe d.map { it.toBigInteger() }
+            Day11.monkey(0).items shouldBe a.map { it }
+            Day11.monkey(1).items shouldBe b.map { it }
+            Day11.monkey(2).items shouldBe c.map { it }
+            Day11.monkey(3).items shouldBe d.map { it }
         }
     }
 
@@ -99,17 +98,6 @@ class Day11Test : DescribeSpec({
         Day11.monkey(2).tests shouldBe 7
         Day11.monkey(3).tests shouldBe 105
         Day11.monkeyBusiness() shouldBe 10605
-    }
-
-    describe("monkeyBusiness p2") {
-        Day11.parseInput(example)
-        Day11.play(10000, false)
-
-        Day11.monkey(0).tests shouldBe 52166
-        Day11.monkey(1).tests shouldBe 47830
-        Day11.monkey(2).tests shouldBe 1938
-        Day11.monkey(3).tests shouldBe 52013
-        Day11.monkeyBusiness() shouldBe 2713310158
     }
 
 })
