@@ -80,7 +80,7 @@ class Day11Test : DescribeSpec({
                 listOf(),
             ),
         )) { (a, b, c, d) ->
-            Day11.playRound()
+            Day11.playRound { it / 3 }
 
             Day11.monkey(0).items shouldBe a.map { it }
             Day11.monkey(1).items shouldBe b.map { it }
@@ -91,13 +91,23 @@ class Day11Test : DescribeSpec({
 
     describe("monkeyBusiness") {
         Day11.parseInput(example)
-        Day11.play(20)
+        Day11.play(20) { it / 3 }
 
         Day11.monkey(0).tests shouldBe 101
         Day11.monkey(1).tests shouldBe 95
         Day11.monkey(2).tests shouldBe 7
         Day11.monkey(3).tests shouldBe 105
         Day11.monkeyBusiness() shouldBe 10605
+    }
+
+    describe("monkeyBusiness p2") {
+        Day11.parseInput(example)
+        Day11.play(10000) { it % (Day11.monkeyMap.values.map { it.divisor }.reduce(Long::times)) }
+        Day11.monkey(0).tests shouldBe 52166
+        Day11.monkey(1).tests shouldBe 47830
+        Day11.monkey(2).tests shouldBe 1938
+        Day11.monkey(3).tests shouldBe 52013
+        Day11.monkeyBusiness() shouldBe 2713310158
     }
 
 })
