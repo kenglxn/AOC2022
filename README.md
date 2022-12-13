@@ -2,6 +2,9 @@
 
 My solutions to [Advent of Code 2022 ](https://adventofcode.com/2022)
 
+* [day 12](https://adventofcode.com/2022/day/12) 
+  * [p1: 1f5402c5](https://github.com/kenglxn/AOC2022/commit/1f5402c587bbb3a8f71c62f6756cb7277e1f0a27) 
+  * [p2: 0525dc80](https://github.com/kenglxn/AOC2022/commit/0525dc80455b5f2ff8bea8fafd0ca068245f2994)
 * [day 11](https://adventofcode.com/2022/day/11) 
   * [p1: a6aaf14a](https://github.com/kenglxn/AOC2022/commit/a6aaf14a980a73e020d203ea31165835fbba05cf) 
   * [p2: 2ed162d9](https://github.com/kenglxn/AOC2022/commit/2ed162d9013325b644cf15891e6966f7693c7044)
