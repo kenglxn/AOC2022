@@ -112,7 +112,7 @@ class Day11Test : DescribeSpec({
 
 })
 
-val example = """
+private val example = """
 Monkey 0:
   Starting items: 79, 98
   Operation: new = old * 19
