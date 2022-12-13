@@ -71,10 +71,12 @@ class Day12Test : DescribeSpec({
                 cXcjih
                 dccXXX
                 """.trimIndent())
-            Day12.walkGraph(true)
+            Day12.walkGraph(Day12.Graph.start, true)
             Day12.Graph.end.distance shouldBe 12
-            Day12.walkGraph(false)
+            Day12.walkGraph(Day12.Graph.start, false)
             Day12.Graph.end.distance shouldBe 12
+            Day12.walkGraph(Day12.Graph.end, false)
+            Day12.Graph.start.distance shouldBe 12
         }
     }
 
@@ -88,10 +90,14 @@ class Day12Test : DescribeSpec({
                 abdefghi
             """.trimIndent()
         )
-        Day12.walkGraph(false)
+        Day12.walkGraph(Day12.Graph.start, false)
         Day12.Graph.end.distance shouldBe 31
-        Day12.walkGraph(true)
+        Day12.walkGraph(Day12.Graph.start, true)
         Day12.Graph.end.distance shouldBe 31
+        Day12.walkGraph(Day12.Graph.end, true)
+        Day12.Graph.start.distance shouldBe 31
+        Day12.walkGraph(Day12.Graph.end, false)
+        Day12.Graph.start.distance shouldBe 31
     }
 
     describe("draw") {

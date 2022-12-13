@@ -37,13 +37,14 @@ object Day12 : AOC {
 
         operator fun get(it: Pair<Int, Int>) = nodes[it]
     }
+
     enum class Path(val char: Char) { NA('.'), UP('^'), DOWN('v'), RIGHT('>'), LEFT('<') }
     data class Vertex(
         val coord: Coord,
         val char: Char,
         val adjacents: MutableList<Vertex> = mutableListOf(),
         var path: Path = Path.NA,
-        var distance : Long = Long.MAX_VALUE,
+        var distance: Long = Long.MAX_VALUE,
     ) {
         val height: Int
             get() = when (char) {
@@ -63,7 +64,7 @@ object Day12 : AOC {
     }
 
     fun parseInput(input: String) {
-        Graph.reset()
+        Graph.max = 'a'
         Graph.nodes = input.lines().flatMapIndexed { y, line ->
             line.mapIndexed { x, char ->
                 val coord = x to y
@@ -80,10 +81,10 @@ object Day12 : AOC {
         }.toMap()
     }
 
-    fun bfs() {
+    fun bfs(start: Vertex) {
         val queue = ArrayDeque<Vertex>()
-        queue.add(Graph.start)
-        Graph.start.distance = 0
+        queue.add(start)
+        start.distance = 0
         while (queue.isNotEmpty()) {
             queue.sortBy { it.distance }
             val current = queue.removeFirst()
@@ -95,8 +96,9 @@ object Day12 : AOC {
             }
         }
     }
-    fun dfs() {
-        Graph.start.distance = 0
+
+    fun dfs(start: Vertex) {
+        start.distance = 0
         val queue = Graph.nodes.values.toMutableList()
 
         while (queue.isNotEmpty()) {
@@ -116,34 +118,48 @@ object Day12 : AOC {
         }
     }
 
-    fun walkGraph(d: Boolean = true) {
+    fun walkGraph(start: Vertex = Graph.start, dfs: Boolean = true) {
+        val walkingBack = start == Graph.end
         Graph.nodes.values.map { vertex ->
+            vertex.distance = Long.MAX_VALUE
+            vertex.adjacents.clear()
             vertex.coord
                 .adjacents()
                 .forEach {
                     val other = Graph[it]
                     if (other != null && vertex.isAdjacent(other)) {
-                        if (other.height <= vertex.height + 1) {
-                            vertex.adjacents.add(other)
+                        if (walkingBack) {
+                            if (vertex.height <= other.height + 1) {
+                                vertex.adjacents.add(other)
+                            }
+                        } else {
+                            if (other.height <= vertex.height + 1) {
+                                vertex.adjacents.add(other)
+                            }
                         }
                     }
                 }
         }
 
-        if (d) dfs() else bfs()
+        if (dfs) dfs(start) else bfs(start)
     }
 
     override fun solve(): String {
         val input = "day12.input".read()
         parseInput(input)
-        walkGraph(false)
+
+        walkGraph()
         val part1 = Graph.end.distance
+
+        walkGraph(start = Graph.end)
+        val ground = Graph.nodes.values.filter { it.char == 'a' }
+        val part2 = ground.map { it.distance }.min()
         return """
             |## Day 12
             |* Part 1: 
             | * $part1
             |* Part 2: 
-            | * 
+            | * $part2
         """.trimMargin()
     }
 }
